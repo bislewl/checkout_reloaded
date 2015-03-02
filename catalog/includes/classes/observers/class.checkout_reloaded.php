@@ -17,13 +17,15 @@ class CheckoutReloadedObserver extends base {
     function CheckoutReloadedObserver() {
         global $zco_notifier;
         $zco_notifier->attach($this, array('NOTIFY_HEADER_START_CHECKOUT_SHIPPING'));
+        $zco_notifier->attach($this, array('NOTIFY_HEADER_END_CHECKOUT_PAYMENT'));
     }
 
     function update(&$class, $eventID, $paramsArray) {
         global $messageStack;
-        $checkout_ajax_post = $_POST['checkout_reloaded_post'];
-        if(CHECKOUT_RELOADED_STATUS == true && $checkout_ajax_post != 1 && $_SESSION['noscript_active'] != 1){
+        $checkout_ajax_post = zen_db_prepare_input($_POST['checkout_reloaded_post']);
+        if (CHECKOUT_RELOADED_STATUS == true && $checkout_ajax_post != 1 && $_SESSION['noscript_active'] != 1) {
             zen_redirect(zen_href_link(FILENAME_CHECKOUT_RELOADED, '', 'SSL'));
         }
     }
+
 }

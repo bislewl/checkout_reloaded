@@ -15,3 +15,4 @@ if(CHECKOUT_RELOADED_SHOW_LEFTSIDE == 'false') $flag_disable_left = true;
 if(CHECKOUT_RELOADED_SHOW_RIGHTSIDE == 'false') $flag_disable_right = true;
 if(CHECKOUT_RELOADED_SHOW_HEADER == 'false') $flag_disable_header = true;
 if(CHECKOUT_RELOADED_SHOW_FOOTER == 'false') $flag_disable_footer = true;
+$_SESSION['navigation']->remove_current_page();
