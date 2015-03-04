@@ -35,10 +35,10 @@
     }
     }
     function session_win() {
-    window.open("<?php echo zen_href_link(FILENAME_INFO_SHOPPING_CART); ?>", "info_shopping_cart", "height=460,width=430,toolbar=no,statusbar=no,scrollbars=yes").focus();
-    }
+  window.open("<?php echo zen_href_link(FILENAME_INFO_SHOPPING_CART); ?>","info_shopping_cart","height=460,width=430,toolbar=no,statusbar=no,scrollbars=yes").focus();
+}
 
-    /* Ajax Core Script */
+/* Ajax Core Script */
 
     function methodSelect(theMethod) {
     if (document.getElementById(theMethod)) {
@@ -81,6 +81,7 @@
 <?php } ?>
     });
     });
+
             /* EOF Core Functions */
 
                     /* BOF Core form checks */
@@ -258,7 +259,7 @@
 
                     // if we had a value before reset, set it again
                     if (SelectedZone != "") theForm.elements["zone_id"].value = SelectedZone;
-                    }
+                            }
 
                     function hideStateField(theForm) {
                     theForm.state.disabled = true;
@@ -296,15 +297,14 @@
                     $(linkID).click(function (event) {
                     event.preventDefault();
                             var link = $(this).attr("href");
-                            if (link.indexOf("checkout_shipping") >= 0 && link.indexOf("checkout_shipping_address") == 0) {
+                            if (link.indexOf("checkout_shipping") >= 0) {
                     reloadCheckoutShipping();
                     }
                     else {
                     $.ajax(
                     {
                     url: link,
-                            type: "POST",
-                            data: "checkout_reloaded_post=1",
+                            type: "GET",
                             success: function (data)
                             {
                             $('.centerColumn').html($(data).find('.centerColumn').html());
@@ -347,11 +347,11 @@
                             prepForms('form[name=checkout_payment]');
                             prepForms('form[name=checkout_payment_address]');
                             prepForms('form[name=checkout_confirmation]');
-                            prepForms('form[name=password_forgotten]');
                             prepForms('form[name=no_account]');
-                            prepLink('.forward a');
+                            prepForms('form[name=fec_confirmation]');
+        prepLink('.forward a');
                             prepLink('.back a');
-                            prepLink('#createAcctDefaultLoginLink a');
+                            prepLink('.buttonRow Forward span a');
                     }
 
                     function reloadCheckoutShipping() {
