@@ -35,10 +35,10 @@
     }
     }
     function session_win() {
-  window.open("<?php echo zen_href_link(FILENAME_INFO_SHOPPING_CART); ?>","info_shopping_cart","height=460,width=430,toolbar=no,statusbar=no,scrollbars=yes").focus();
-}
+    window.open("<?php echo zen_href_link(FILENAME_INFO_SHOPPING_CART); ?>", "info_shopping_cart", "height=460,width=430,toolbar=no,statusbar=no,scrollbars=yes").focus();
+            }
 
-/* Ajax Core Script */
+    /* Ajax Core Script */
 
     function methodSelect(theMethod) {
     if (document.getElementById(theMethod)) {
@@ -81,7 +81,6 @@
 <?php } ?>
     });
     });
-
             /* EOF Core Functions */
 
                     /* BOF Core form checks */
@@ -259,7 +258,7 @@
 
                     // if we had a value before reset, set it again
                     if (SelectedZone != "") theForm.elements["zone_id"].value = SelectedZone;
-                            }
+                    }
 
                     function hideStateField(theForm) {
                     theForm.state.disabled = true;
@@ -307,7 +306,7 @@
                             type: "GET",
                             success: function (data)
                             {
-                            $('.centerColumn').html($(data).find('.centerColumn').html());
+                            loadCenterColumn(data)
                                     reSetupObvservers();
                             }
                     });
@@ -328,7 +327,7 @@
                                     data: postData,
                                     success: function (data)
                                     {
-                                    $('.centerColumn').html($(data).find('.centerColumn').html());
+                                    loadCenterColumn(data)
                                             if (formURL.indexOf("checkout_shipping_address") >= 0) {
                                     reloadCheckoutShipping();
                                     }
@@ -348,8 +347,7 @@
                             prepForms('form[name=checkout_payment_address]');
                             prepForms('form[name=checkout_confirmation]');
                             prepForms('form[name=no_account]');
-                            prepForms('form[name=fec_confirmation]');
-        prepLink('.forward a');
+                            prepLink('.forward a');
                             prepLink('.back a');
                             prepLink('.buttonRow Forward span a');
                     }
@@ -363,7 +361,7 @@
                                     data: "checkout_reloaded_post=1",
                                     success: function (data)
                                     {
-                                    $('.centerColumn').html($(data).find('.centerColumn').html());
+                                    loadCenterColumn(data)
                                             reSetupObvservers();
                                     }
                             });
@@ -377,7 +375,7 @@
                                     type: "GET",
                                     success: function (data)
                                     {
-                                    $('.centerColumn').html($(data).find('.centerColumn').html());
+                                    loadCenterColumn(data)
                                             reSetupObvservers();
                                     }
                             });
@@ -438,9 +436,19 @@
                             type: 'post',
                             data: 'checkout_reloaded_post=1',
                             success: function (data) {
-                            $('.centerColumn').html($(data).find('.centerColumn').html());
+                            loadCenterColumn(data)
                                     reSetupObvservers();
                             }
                     });
                     });
+                            function loadCenterColumn(data){
+                            var centerColumnContent = $(data).find('.centerColumn').html();
+                                    $('.centerColumn').html(centerColumnContent);
+                                    console.log(centerColumnContent.length);
+                                    if (centerColumnContent.length < 100){
+                            reloadCheckoutShipping();
+                            }
+
+
+                            }
 //--></script>
