@@ -112,11 +112,15 @@
             if (isset($_SESSION['shipping']) && isset($_SESSION['shipping']['id'])) {
               $checked = ($quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'] == $_SESSION['shipping']['id']);
             }
+            if($checked == FALSE && $n2 == 1){
+                $checked = true;
+            }
             if ( ($checked == true) || ($n == 1 && $n2 == 1) ) {
 //               echo '      <div id="defaultSelected" class="moduleRowSelected">' . "\n";
 //             } else {
 //               echo '      <div class="moduleRow">' . "\n";
             }
+            
 ?>
 <?php
             if ( ($n > 1) || ($n2 > 1) ) {

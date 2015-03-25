@@ -224,6 +224,14 @@ if (isset($_SESSION['shipping'])) {
 if (!isset($_SESSION['shipping']) && (zen_count_shipping_modules() > 1))
     $_SESSION['shipping'] = $shipping_modules->cheapest();
 
+ // redirect to calculate shipping on initial load
+  if ( !$_SESSION['shipping'] || ( $_SESSION['shipping'] && ($_SESSION['shipping'] == false) && (zen_count_shipping_modules() > 1) ) ) {
+    $_SESSION['shipping'] = $shipping_modules->cheapest();
+    if (!($messageStack->size('checkout_payment') > 0) && !($messageStack->size('checkout_shipping') > 0) && !($messageStack->size('redemptions') > 0) && $_SESSION['shipping']) {
+      zen_redirect(zen_href_link('checkout_shipping', zen_get_all_get_params(), 'SSL'));
+    }
+  }
+
 
 // Should address-edit button be offered?
 $displayAddressEdit = (MAX_ADDRESS_BOOK_ENTRIES >= 2);
