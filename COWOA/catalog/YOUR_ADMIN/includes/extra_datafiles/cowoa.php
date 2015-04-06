@@ -1,6 +1,5 @@
 <?php
-
-/*
+/* 
  * 
  * @package checkout_reloaded
  * @copyright Copyright 2003-2015 ZenCart.Codes a Pro-Webs Company
@@ -8,11 +7,8 @@
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @filename checkout_reloaded.php
- * @file created 2015-01-30 9:59:00 PM
+ * @file created 2015-02-10 10:20:48 PM
  * 
  */
 
-//filenames
-define('FILENAME_CHECKOUT_RELOADED', 'checkout_reloaded');
-
-
+define('BOX_CONFIGURATION_COWOA', "COWOA Configuration");

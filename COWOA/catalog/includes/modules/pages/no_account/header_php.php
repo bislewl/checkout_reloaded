@@ -21,3 +21,7 @@ $breadcrumb->add(NAVBAR_TITLE);
 // This should be last line of the script:
 $zco_notifier->notify('NOTIFY_HEADER_END_NO_ACCOUNT');
 // eof
+if(COWOA_SHOW_LEFTSIDE == 'false') $flag_disable_left = true;
+if(COWOA_SHOW_RIGHTSIDE == 'false') $flag_disable_right = true;
+if(COWOA_SHOW_HEADER == 'false') $flag_disable_header = true;
+if(COWOA_SHOW_FOOTER == 'false') $flag_disable_footer = true;
