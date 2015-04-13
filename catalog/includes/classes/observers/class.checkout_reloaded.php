@@ -17,7 +17,6 @@ class CheckoutReloadedObserver extends base {
     function CheckoutReloadedObserver() {
         global $zco_notifier;
         $zco_notifier->attach($this, array('NOTIFY_HEADER_START_CHECKOUT_SHIPPING'));
-        $zco_notifier->attach($this, array('NOTIFY_HEADER_END_CHECKOUT_PAYMENT'));
     }
 
     function update(&$class, $eventID, $paramsArray) {

@@ -36,7 +36,7 @@
     }
     function session_win() {
     window.open("<?php echo zen_href_link(FILENAME_INFO_SHOPPING_CART); ?>", "info_shopping_cart", "height=460,width=430,toolbar=no,statusbar=no,scrollbars=yes").focus();
-            }
+    }
 
     /* Ajax Core Script */
 
@@ -296,7 +296,7 @@
                     $(linkID).click(function (event) {
                     event.preventDefault();
                             var link = $(this).attr("href");
-                            if (link.indexOf("checkout_shipping") >= 0) {
+                            if (link.indexOf("checkout_shipping") >= 0 && link.indexOf("checkout_shipping_address") == 0) {
                     reloadCheckoutShipping();
                     }
                     else {
@@ -317,9 +317,10 @@
                     function prepForms(formID) {
                     $(formID).submit(function (event) {
                     event.preventDefault();
-                            var postData = $(this).serializeArray();
-                            var formURL = $(this).attr("action");
+                            var postData = $(formID).serializeArray();
+                            var formURL = $(formID).attr("action");
                             postData.push({name: 'checkout_reloaded_post', value: '1'});
+                            console.log(formURL);
                             $.ajax(
                             {
                             url: formURL,
@@ -328,7 +329,7 @@
                                     success: function (data)
                                     {
                                     loadCenterColumn(data)
-                                            if (formURL.indexOf("checkout_shipping_address") >= 0) {
+                                    if (formURL.indexOf("checkout_shipping_address") >= 0) {
                                     reloadCheckoutShipping();
                                     }
                                     reSetupObvservers();
