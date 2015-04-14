@@ -76,7 +76,7 @@ if (isset($additional_payment_messages) && $additional_payment_messages != '') {
 <!--Kill session if COWOA customer at checkout success-->
 <div id="checkoutSuccessLogoff">
 <?php
-if ($_SESSION['COWOA'] and CHECKOUT_RELOADED_COWOA_FORCE_LOGOFF == 'true') {
+if ($_SESSION['COWOA'] and COWOA_FORCE_LOGOFF == 'true') {
   zen_session_destroy();
 } else {
   if (isset($_SESSION['customer_guest_id'])) {

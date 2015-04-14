@@ -184,7 +184,7 @@
 
                     function check_form(form_name) {
                     if (submitted == true) {
-                    alert("<?php echo JS_ERROR_SUBMITTED; ?>");
+                    //alert("<?php echo JS_ERROR_SUBMITTED; ?>");
                             return false;
                     }
 
@@ -329,7 +329,7 @@
                                     success: function (data)
                                     {
                                     loadCenterColumn(data)
-                                    if (formURL.indexOf("checkout_shipping_address") >= 0) {
+                                            if (formURL.indexOf("checkout_shipping_address") >= 0) {
                                     reloadCheckoutShipping();
                                     }
                                     reSetupObvservers();
@@ -384,7 +384,9 @@
 
                     function refreshShipping() {
                     $('input[name="shipping"]').click(function () {
-                    dimOrderTotals();
+                    var shippingType = $("input[name='shipping']:checked").val();
+                            console.log(shippingType);
+                            dimOrderTotals();
                             var postData = $('form[name=checkout_address]').serializeArray();
                             var checkoutShipping = 'index.php?main_page=checkout_shipping';
                             postData.push({name: 'checkout_reloaded_post', value: '1'});
@@ -393,9 +395,12 @@
                             url: checkoutShipping,
                                     type: "POST",
                                     data: postData,
-                                    success: function ()
+                                    success: function (data)
                                     {
-                                    reloadCheckoutShipping();
+                                    $("fieldset[id='checkoutOrderTotals']").removeAttr('style');
+                                            var shippingDetailsContent = $(data).find("fieldset[id='checkoutOrderTotals']").html();
+                                            $("fieldset[id='checkoutOrderTotals']").html(shippingDetailsContent);
+                                            // reloadCheckoutShipping();
                                             reSetupObvservers();
                                     }
                             });
@@ -404,7 +409,9 @@
 
                     function refreshPayment() {
                     $('input[name="dc_redeem_code"]').blur(function () {
+                        if ($('input[name="dc_redeem_code"]').length > 3){
                     discCodeEntered();
+                        }
                     });
                     }
 
@@ -449,7 +456,5 @@
                                     if (centerColumnContent.length < 100){
                             reloadCheckoutShipping();
                             }
-
-
                             }
 //--></script>

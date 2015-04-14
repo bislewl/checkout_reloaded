@@ -58,7 +58,7 @@
 <?php
   if ($_SESSION['cart']->count_contents() > 0) { ?>
 <!-- BOF COWOA -->
-<?php if (CHECKOUT_RELOADED_COWOA_STATUS == 'true') { ?>
+<?php if (COWOA_STATUS == 'true') { ?>
     <fieldset>
     <legend>Checkout Without Account</legend>
     <?php echo TEXT_RATHER_COWOA; ?>
@@ -83,7 +83,7 @@
 <?php
   if ($_SESSION['cart']->count_contents() > 0) { ?>
 <!-- BOF COWOA -->
-<?php if (CHECKOUT_RELOADED_COWOA_STATUS == 'true') { ?>
+<?php if (COWOA_STATUS == 'true') { ?>
     <fieldset>
     <legend>Checkout Without Account</legend>
     <?php echo TEXT_RATHER_COWOA; ?>

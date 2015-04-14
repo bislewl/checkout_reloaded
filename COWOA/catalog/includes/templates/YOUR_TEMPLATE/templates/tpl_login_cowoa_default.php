@@ -13,7 +13,7 @@
 
 <?php // Begin COWOA login page layout ?>
 <!--BOF PPEC split login- DO NOT REMOVE-->
-<?php if ((CHECKOUT_RELOADED_COWOA_STATUS == 'true') && ($_SESSION['cart']->count_contents() != 0)) { ?>    
+<?php if ((COWOA_STATUS == 'true') && ($_SESSION['cart']->count_contents() != 0)) { ?>    
 <h3 class="cowoaGuestHeading"><?php echo TEXT_COWOA_HEADING; ?></h3>
     <fieldset>
     <legend><?php echo COWOA_HEADING; ?></legend>
@@ -76,7 +76,7 @@
 <?php } ?>
 <!--EOF PPEC split login- DO NOT REMOVE-->
 
-<?php if (CHECKOUT_RELOADED_SHOPWCONF_BOX == 'true') { ?> 
+<?php if (SHOPWCONF_BOX == 'true') { ?> 
 <fieldset class="floatingBoxRt forward">
 <legend>
 <?php

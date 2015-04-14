@@ -177,7 +177,7 @@ echo zen_draw_form('order_status', zen_href_link(FILENAME_ORDER_STATUS, '', 'SSL
 <!--bof logoff-->
 <!--Kills session after COWOA customer looks at order status-->
 <?php
-if ($_SESSION['COWOA'] and CHECKOUT_RELOADED_COWOA_FORCE_LOGOFF == 'true') {
+if ($_SESSION['COWOA'] and COWOA_FORCE_LOGOFF == 'true') {
   zen_session_destroy();
 } else {
   if (isset($_SESSION['customer_guest_id'])) {
