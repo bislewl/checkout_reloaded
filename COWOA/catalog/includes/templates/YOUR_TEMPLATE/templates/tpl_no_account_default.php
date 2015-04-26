@@ -20,7 +20,7 @@
 <!-- bof Order Steps (tableless) -->
 <div id="order_steps">
   <div class="order_steps_text">
-    <span id="active_step_text_COWOA"><?php echo zen_image($template->get_template_dir(ORDER_STEPS_IMAGE, DIR_WS_TEMPLATE, $current_page_base,'images'). '/' . ORDER_STEPS_IMAGE, ORDER_STEPS_IMAGE_ALT); ?><br /><?php echo TEXT_ORDER_STEPS_BILLING; ?></span><span class="order_steps_text1_COWOA"><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text2_COWOA"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text3_COWOA"><?php echo TEXT_ORDER_STEPS_3; ?></span><span class="order_steps_text4_COWOA"><?php echo TEXT_ORDER_STEPS_4; ?></span>
+    <span id="active_step_text_COWOA"><?php echo ORDER_STEPS_IMAGE; ?><br /><?php echo TEXT_ORDER_STEPS_BILLING; ?></span><span class="order_steps_text1_COWOA"><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text2_COWOA"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text3_COWOA"><?php echo TEXT_ORDER_STEPS_3; ?></span><span class="order_steps_text4_COWOA"><?php echo TEXT_ORDER_STEPS_4; ?></span>
   </div>
   <div class="order_steps_line_2">
     <span class="progressbar_active_COWOA">&nbsp;</span>

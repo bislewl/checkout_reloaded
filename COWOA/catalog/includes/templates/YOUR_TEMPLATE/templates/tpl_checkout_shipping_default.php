@@ -23,7 +23,7 @@
 <?php if($COWOA) {?>
   <div id="order_steps">
     <div class="order_steps_text">
-      <span class="order_steps_text1_COWOA"><?php echo TEXT_ORDER_STEPS_BILLING; ?></span><span id="active_step_text_COWOA"><?php echo zen_image($template->get_template_dir(ORDER_STEPS_IMAGE, DIR_WS_TEMPLATE, $current_page_base,'images'). '/' . ORDER_STEPS_IMAGE, ORDER_STEPS_IMAGE_ALT); ?><br /><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text2_COWOA"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text3_COWOA"><?php echo TEXT_ORDER_STEPS_3; ?></span><span class="order_steps_text4_COWOA"><?php echo TEXT_ORDER_STEPS_4; ?></span>
+      <span class="order_steps_text1_COWOA"><?php echo TEXT_ORDER_STEPS_BILLING; ?></span><span id="active_step_text_COWOA"><?php echo ORDER_STEPS_IMAGE; ?><br /><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text2_COWOA"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text3_COWOA"><?php echo TEXT_ORDER_STEPS_3; ?></span><span class="order_steps_text4_COWOA"><?php echo TEXT_ORDER_STEPS_4; ?></span>
     </div>
     <div class="order_steps_line_2">
       <span class="progressbar_active_COWOA">&nbsp;</span><span class="progressbar_active_COWOA">&nbsp;</span><span class="progressbar_inactive_COWOA">&nbsp;</span><span class="progressbar_inactive_COWOA">&nbsp;</span><span class="progressbar_inactive_COWOA">&nbsp;</span>
@@ -32,7 +32,7 @@
 <?php } else {?>
   <div id="order_steps">
     <div class="order_steps_text">
-      <span id="active_step_text"><?php echo zen_image($template->get_template_dir(ORDER_STEPS_IMAGE, DIR_WS_TEMPLATE, $current_page_base,'images'). '/' . ORDER_STEPS_IMAGE, ORDER_STEPS_IMAGE_ALT); ?><br /><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text2"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text3"><?php echo TEXT_ORDER_STEPS_3; ?></span><span class="order_steps_text4"><?php echo TEXT_ORDER_STEPS_4; ?></span>
+      <span id="active_step_text"><?php echo ORDER_STEPS_IMAGE; ?><br /><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text2"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text3"><?php echo TEXT_ORDER_STEPS_3; ?></span><span class="order_steps_text4"><?php echo TEXT_ORDER_STEPS_4; ?></span>
     </div>
     <div class="order_steps_line_2">
       <span class="progressbar_active">&nbsp;</span><span class="progressbar_inactive">&nbsp;</span><span class="progressbar_inactive">&nbsp;</span><span class="progressbar_inactive">&nbsp;</span>
@@ -41,7 +41,7 @@
 <?php } ?>
 <!-- eof Order Steps (tableless) -->
 <fieldset id="checkoutOrderTotals">
-<legend id="checkoutPaymentHeadingTotal"><?php echo TEXT_YOUR_TOTAL; ?></legend>
+<legend class="use"><?php echo TEXT_YOUR_TOTAL; ?></legend>
 <?php
   if (MODULE_ORDER_TOTAL_INSTALLED) {
     $order_totals = $order_total_modules->process();
@@ -51,8 +51,8 @@
   }
 ?>
 </fieldset>
-<h2 id="checkoutShippingHeadingAddress"><?php echo TITLE_SHIPPING_ADDRESS; ?></h2>
-
+<legend class="use"><?php echo TITLE_SHIPPING_ADDRESS; ?></legend>
+<br class="clearBoth" />
 <div id="checkoutShipto" class="floatingBox back">
 <?php if ($displayAddressEdit) { ?>
 <div class="buttonRow forward"><?php echo '<a href="' . $editShippingButtonLink . '">' . zen_image_button(BUTTON_IMAGE_CHANGE_ADDRESS, BUTTON_CHANGE_ADDRESS_ALT) . '</a>'; ?></div>
@@ -66,7 +66,7 @@
   if (zen_count_shipping_modules() > 0) {
 ?>
 
-<h2 id="checkoutShippingHeadingMethod"><?php echo TABLE_HEADING_SHIPPING_METHOD; ?></h2>
+<legend class="use">Shipping</legend>
 
 <?php
     if (sizeof($quotes) > 1 && sizeof($quotes[0]) > 1) {
@@ -161,12 +161,12 @@
   }
 ?>
 <fieldset class="shipping" id="comments">
-<legend><?php echo TABLE_HEADING_COMMENTS; ?></legend>
+<legend>Gift Message / Comments</legend>
 <?php echo zen_draw_textarea_field('comments', '45', '3'); ?>
 </fieldset>
 
 <div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_CONTINUE_CHECKOUT, BUTTON_CONTINUE_ALT); ?></div>
 <div class="buttonRow back"><?php echo '<strong>' . TITLE_CONTINUE_CHECKOUT_PROCEDURE . '</strong><br />' . TEXT_CONTINUE_CHECKOUT_PROCEDURE; ?></div>
 
-</form>
+</form><br class="clearBoth" /><br class="clearBoth" /><br class="clearBoth" /><br class="clearBoth" />
 </div>

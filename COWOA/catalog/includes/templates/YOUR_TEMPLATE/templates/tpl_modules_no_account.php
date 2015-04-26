@@ -36,13 +36,13 @@
 ?>
 <!-- COWOA - Cart Totals are Zero, so just ask for e-mail address-->
 <fieldset>
-<legend><?php echo TABLE_HEADING_CONTACT_DETAILS; ?></legend>
+<legend class="use"><?php echo TABLE_HEADING_CONTACT_DETAILS; ?></legend>
 <label class="inputLabel" for="email-address"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
 <?php echo zen_draw_input_field('email_address', '', zen_set_field_length(TABLE_CUSTOMERS, 'customers_email_address', '40') . ' id="email-address"') . (zen_not_null(ENTRY_EMAIL_ADDRESS_TEXT) ? '<span class="alert">' . ENTRY_EMAIL_ADDRESS_TEXT . '' . EMAIL_TEXT_COWOA . '</span>':''); ?>
 <br class="clearBoth" />
 </fieldset>
 <fieldset>
-<legend><?php echo ENTRY_EMAIL_PREFERENCE; ?></legend>
+<legend class="use"><?php echo ENTRY_EMAIL_PREFERENCE; ?></legend>
 <?php echo zen_draw_radio_field('email_format', 'HTML', ($email_format == 'HTML' ? true : false),'id="email-format-html"') . '<label class="radioButtonLabel" for="email-format-html">' . ENTRY_EMAIL_HTML_DISPLAY . '</label>' .  zen_draw_radio_field('email_format', 'TEXT', ($email_format == 'TEXT' ? true : false), 'id="email-format-text"') . '<label class="radioButtonLabel" for="email-format-text">' . ENTRY_EMAIL_TEXT_DISPLAY . '</label>'; ?>
 <br class="clearBoth" />
 </fieldset>
@@ -61,7 +61,7 @@
 ?>
 
 <fieldset>
-<legend><?php echo TABLE_HEADING_ADDRESS_DETAILS; ?></legend>
+<legend class="use"><?php echo TABLE_HEADING_ADDRESS_DETAILS; ?></legend>
 <div class="alert forward"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
 <?php
   if (ACCOUNT_GENDER == 'true') {
@@ -111,7 +111,8 @@
 
 <?php if ($flag_show_pulldown_states == true) { ?>
 <br class="clearBoth" id="stBreak" />
-<?php } ?>
+<?php } 
+else {?>
 <label class="inputLabel" for="state" id="stateLabel"><?php echo ENTRY_STATE; ?></label>
 <?php
     echo zen_draw_input_field('state', '', zen_set_field_length(TABLE_ADDRESS_BOOK, 'entry_state', '40') . ' id="state"');
@@ -122,6 +123,7 @@
 ?>
 <br class="clearBoth" />
 <?php
+}
   }
 ?>
 
@@ -155,9 +157,15 @@
 </fieldset>
 
 <fieldset>
-<legend><?php echo ENTRY_EMAIL_PREFERENCE; ?></legend>
-
-<?php echo zen_draw_radio_field('email_format', 'HTML', ($email_format == 'HTML' ? true : false),'id="email-format-html"') . '<label class="radioButtonLabel" for="email-format-html">' . ENTRY_EMAIL_HTML_DISPLAY . '</label>' .  zen_draw_radio_field('email_format', 'TEXT', ($email_format == 'TEXT' ? true : false), 'id="email-format-text"') . '<label class="radioButtonLabel" for="email-format-text">' . ENTRY_EMAIL_TEXT_DISPLAY . '</label>'; ?>
+<legend class="use"><?php echo ENTRY_EMAIL_PREFERENCE; ?></legend>
+<?php
+  if (ACCOUNT_NEWSLETTER_STATUS != 0) {
+?>
+<?php echo zen_draw_checkbox_field('newsletter', '1', $newsletter, 'id="newsletter-checkbox"') . '<label class="checkboxLabel" for="newsletter-checkbox">' . ENTRY_NEWSLETTER . '</label>' . (zen_not_null(ENTRY_NEWSLETTER_TEXT) ? '<span class="alert">' . ENTRY_NEWSLETTER_TEXT . '</span>': ''); ?>
+<br class="clearBoth" />
+<?php } ?>
+<?php echo zen_draw_hidden_field('email_format', 'HTML');
+// echo zen_draw_radio_field('email_format', 'HTML', ($email_format == 'HTML' ? true : false),'id="email-format-html"') . '<label class="radioButtonLabel" for="email-format-html">' . ENTRY_EMAIL_HTML_DISPLAY . '</label>' .  zen_draw_radio_field('email_format', 'TEXT', ($email_format == 'TEXT' ? true : false), 'id="email-format-text"') . '<label class="radioButtonLabel" for="email-format-text">' . ENTRY_EMAIL_TEXT_DISPLAY . '</label>'; ?>
 <br class="clearBoth" />
 </fieldset>
 

@@ -34,7 +34,7 @@
 <?php if($COWOA) {?>
   <div id="order_steps">
     <div class="order_steps_text">
-      <span class="order_steps_text1_COWOA"><?php echo TEXT_ORDER_STEPS_BILLING; ?></span><span class="order_steps_text2_COWOA"><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text3_COWOA"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text4_COWOA"><?php echo TEXT_ORDER_STEPS_3; ?></span><span id="active_step_text_COWOA"><?php echo zen_image($template->get_template_dir(ORDER_STEPS_IMAGE, DIR_WS_TEMPLATE, $current_page_base,'images'). '/' . ORDER_STEPS_IMAGE, ORDER_STEPS_IMAGE_ALT); ?><br /><?php echo TEXT_ORDER_STEPS_4; ?></span>
+      <span class="order_steps_text1_COWOA"><?php echo TEXT_ORDER_STEPS_BILLING; ?></span><span class="order_steps_text2_COWOA"><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text3_COWOA"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text4_COWOA"><?php echo TEXT_ORDER_STEPS_3; ?></span><span id="active_step_text_COWOA"><?php echo ORDER_STEPS_IMAGE; ?><br /><?php echo TEXT_ORDER_STEPS_4; ?></span>
     </div>
      <div class="order_steps_line_2">
        <span class="progressbar_active_COWOA">&nbsp;</span><span class="progressbar_active_COWOA">&nbsp;</span><span class="progressbar_active_COWOA">&nbsp;</span><span class="progressbar_active_COWOA">&nbsp;</span><span class="progressbar_active_COWOA">&nbsp;</span>
@@ -43,7 +43,7 @@
 <?php } else {?>
   <div id="order_steps">
     <div class="order_steps_text">
-      <span class="order_steps_text2"><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text3"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text4"><?php echo TEXT_ORDER_STEPS_3; ?></span><span id="active_step_text"><?php echo zen_image($template->get_template_dir(ORDER_STEPS_IMAGE, DIR_WS_TEMPLATE, $current_page_base,'images'). '/' . ORDER_STEPS_IMAGE, ORDER_STEPS_IMAGE_ALT); ?><br /><?php echo TEXT_ORDER_STEPS_4; ?></span>
+      <span class="order_steps_text2"><?php echo TEXT_ORDER_STEPS_1; ?></span><span class="order_steps_text3"><?php echo TEXT_ORDER_STEPS_2; ?></span><span class="order_steps_text4"><?php echo TEXT_ORDER_STEPS_3; ?></span><span id="active_step_text"><?php echo ORDER_STEPS_IMAGE; ?><br /><?php echo TEXT_ORDER_STEPS_4; ?></span>
     </div>
    <div class="order_steps_line_2">
       <span class="progressbar_active">&nbsp;</span><span class="progressbar_active">&nbsp;</span><span class="progressbar_active">&nbsp;</span><span class="progressbar_active">&nbsp;</span>
@@ -115,6 +115,121 @@ if ($_SESSION['COWOA'] and COWOA_FORCE_LOGOFF == 'true') {
 ?>
 <!--eof -product notifications box-->
 
+<div id="gts-order" style="display:none;" translate="no">
+    <?php
+    $gts_discount_total_query = "select value
+			from " . TABLE_ORDERS_TOTAL . "
+			where orders_id = '" . $orders->fields['orders_id'] . "'
+			AND class = 'ot_coupon'";
+
+    $gts_discount_total = $db->Execute($gts_discount_total_query);
+
+    if ($gts_discount_total->fields['value'] != 0) {
+        $gts_discount_tax = number_format($gts_discount_total->fields['value'], 2, '.', ' ');
+    } else {
+        $gts_discount_tax = 0;
+    }
+
+    $gts_shipping_total_query = "select value
+			from " . TABLE_ORDERS_TOTAL . "
+			where orders_id = '" . $orders->fields['orders_id'] . "'
+			AND class = 'ot_shipping'";
+
+    $gts_shipping_total = $db->Execute($gts_shipping_total_query);
+    
+    $gts_tax_total_query = "select value
+			from " . TABLE_ORDERS_TOTAL . "
+			where orders_id = '" . $orders->fields['orders_id'] . "'
+			AND class = 'ot_tax'";
+
+    $gts_tax_total = $db->Execute($gts_tax_total_query);
+
+    if ($gts_shipping_total->fields['value'] != 0) {
+        $gts_shipping_tax = number_format($gts_shipping_total->fields['value'], 2, '.', ' ');
+    } else {
+        $gts_shipping_tax = 0;
+    }
+
+    if ($order->fields['order_tax'] != 0) {
+        $gts_order_tax = number_format($order->fields['order_tax'], 2, '.', ' ');
+    } else {
+        $gts_order_tax = 0;
+    }
+
+    $leadtime = (int) get_cart_ship_lead_success($orders->fields['orders_id']) + 1;
+    $gts_est_ship_date = date('Y-m-d', strtotime($order->fields['date_purchased'] . ' + ' . $leadtime . ' day'));
+    $days_to_delv = (int) get_cart_ship_lead_success($orders->fields['orders_id']) + 4;
+    $gts_est_del_date =  date('Y-m-d', strtotime($order->fields['date_purchased'] . ' + ' . $days_to_delv . ' day'));
+    $gts_product_list = '';
+    $gts_backorder_status = 'N'; // Defaults to N (not backordered)
+    
+    $gts_products_query = "SELECT *
+                     FROM " . TABLE_ORDERS_PRODUCTS . "
+                     WHERE orders_id = ".$orders->fields['orders_id']."
+                     ORDER BY products_name";
+  $gts_products = $db->Execute($gts_products_query);
+  
+    while (!$gts_products->EOF) {
+        if (GTS_BACKORDER == 'true') { // If Backorder Check enabled
+            $backorder_check_query = "SELECT products_quantity, products_date_available
+				FROM " . TABLE_PRODUCTS . "
+				WHERE products_id = '" . $gts_products->fields['products_id'] . "'";
+
+            $backorder_check = $db->Execute($backorder_check_query);
+
+            if (($backorder_check->fields['products_quantity'] < 0) || ($backorder_check->fields['products_date_available'] != NULL)) {
+                $gts_backorder_status = 'Y'; // Change status to Y, this will remain on once any product changes it to Y per Google requirements. Y if 1 or more items on the order is known to be on backorder or preorder.
+            }
+        }
+
+        $gts_product_list = $gts_product_list . '
+		<span class="gts-item">
+		<span class="gts-i-name">' . $gts_products->fields["products_name"] . '</span>
+		<span class="gts-i-price">' . number_format($gts_products->fields["products_price"], 2, ".", " ") . '</span>
+		<span class="gts-i-quantity">' . $gts_products->fields["products_quantity"] . '</span>
+		<span class="gts-i-prodsearch-id">' . $gts_products->fields['products_id'] . '</span>
+		<span class="gts-i-prodsearch-store-id">2215154</span>
+		<span class="gts-i-prodsearch-country">US</span>
+		<span class="gts-i-prodsearch-language">en</span>
+		</span>
+		';
+
+        $gts_products->MoveNext();
+    }
+    ?>
+    <!-- start order and merchant information -->
+    <span id="gts-o-id"><?php echo $orders->fields['orders_id']; ?></span>
+    <span id="gts-o-domain">www.marysminiatures.net</span>
+    <span id="gts-o-email"><?php echo $orders->fields['customers_email_address']; ?></span>
+<?php
+$iso_country_code = $db->Execute("SELECT countries_iso_code_2 FROM countries WHERE countries_name = '" . $orders->fields['billing_country'] . "' LIMIT 1");
+
+if ($iso_country_code->RecordCount() == 1) {
+    // Show 2 digit ISO code
+    echo '<span id="gts-o-country">' . $iso_country_code->fields['countries_iso_code_2'] . '</span>';
+} else {
+    // Else default to US
+    echo '<span id="gts-o-country">' . "US" . '</span>';
+}
+?>
+    <span id="gts-o-currency"><?php echo $orders->fields['currency']; ?></span>
+    <span id="gts-o-total"><?php echo $order_summary['order_subtotal'];?></span>
+    <span id="gts-o-discounts"><?php echo $gts_discount_tax; ?></span>
+    <span id="gts-o-shipping-total"><?php echo $gts_shipping_tax; ?></span>
+    <span id="gts-o-tax-total"><?php echo number_format($gts_tax_total->fields['value'], 2, '.', ' '); ?></span>
+    <span id="gts-o-est-ship-date"><?php echo $gts_est_ship_date; ?></span>
+    <span id="gts-o-est-delivery-date"><?php echo $gts_est_del_date; ?></span>
+    <span id="gts-o-has-preorder">N</span>
+    <span id="gts-o-has-digital">N</span>
+    <!-- end order and merchant information -->
+    
+        
+    <!-- start repeated item specific information -->
+<?php echo $gts_product_list; ?>
+    <!-- end repeated item specific information -->
+</div>
+<div id="GTS_CONTAINER"></div>
+<!-- END: Trusted Stores -->
 
 <!--bof -product downloads module-->
 <?php
@@ -128,3 +243,62 @@ if ($_SESSION['COWOA'] and COWOA_FORCE_LOGOFF == 'true') {
 
 <h3 id="checkoutSuccessThanks" class="centeredContent"><?php echo TEXT_THANKS_FOR_SHOPPING; ?></h3>
 </div>
+<!---all conversion tracking-->
+<!--bof Pinterest conversion-->
+<img height="1" width="1" alt="" src="https://ct.pinterest.com/?tid=UbKZontuZQk"/>
+<!--eof Pinterest conversion-->
+<!--Facebook Conversions-->
+<script type="text/javascript">
+    var fb_param = {};
+    fb_param.pixel_id = '6008552393420';
+    fb_param.value = '<?php echo $order_summary['order_subtotal']; ?>';
+    fb_param.currency = 'USD';
+    (function () {
+        var fpw = document.createElement('script');
+        fpw.async = true;
+        fpw.src = '//connect.facebook.net/en_US/fp.js';
+        var ref = document.getElementsByTagName('script')[0];
+        ref.parentNode.insertBefore(fpw, ref);
+    })();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6008552393420&amp;value=0&amp;currency=USD" /></noscript>
+<!-- Google mprough@gm Code for Purchase Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 995747980;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "w8AiCNTytgkQjNHn2gM";
+var google_conversion_value = "<?php echo $order_summary['order_subtotal']; ?>";
+var google_conversion_currency = "USD";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/995747980/?value=1.00&amp;currency_code=USD&amp;label=w8AiCNTytgkQjNHn2gM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+<!-- Google jack@pro Code for Purchase Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 988227327;
+var google_conversion_language = "en";
+var google_conversion_format = "2";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "fCUwCJmApwYQ_82c1wM";
+var google_conversion_value = "<?php echo $order_summary['order_subtotal']; ?>";
+var google_conversion_currency = "USD";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/988227327/?value=1.00&amp;currency_code=USD&amp;label=fCUwCJmApwYQ_82c1wM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>

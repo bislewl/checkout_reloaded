@@ -247,6 +247,18 @@ if (isset($_SESSION['payment']) && method_exists($$_SESSION['payment'], 'alterSh
 }
 
 require(DIR_WS_CLASSES . 'payment.php');
+
+  // BEGIN REWARDS POINTS
+  // if credit does not cover order total or isn't selected
+  if ($_SESSION['credit_covers'] != true) {
+    // check that a gift voucher isn't being used that is larger than the order
+    if ($_SESSION['cot_gv'] < $order->info['total']) {
+      $credit_covers = false;
+    }
+  } else {
+    $credit_covers = true;
+  }
+  // END REWARDS POINTS
 $payment_modules = new payment;
 
 $breadcrumb->add(NAVBAR_TITLE_1, zen_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));

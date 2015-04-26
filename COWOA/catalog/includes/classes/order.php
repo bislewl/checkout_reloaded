@@ -6,7 +6,6 @@
  * @copyright Copyright 2003-2014 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version GIT: $Id: Author: DrByte  Tue Apr 15 15:06:16 2014 -0400 Modified in v1.5.3 $
- * @version GIT: Integrated COWOA v2.6
  */
 /**
  * order class
@@ -41,9 +40,8 @@ class order extends base {
     global $db;
 
     $order_id = zen_db_prepare_input($order_id);
-// BEGIN COWOA edit
     $this->queryReturnFlag = NULL;
-    $this->notify('NOTIFY_ORDER_BEFORE_QUERY', array('order_id' => $order_id));
+    $this->notify('NOTIFY_ORDER_BEFORE_QUERY', array(), $order_id);
     if ($this->queryReturnFlag === TRUE) return;
 
     $order_query = "select customers_id, customers_name, customers_company,
@@ -57,10 +55,10 @@ class order extends base {
                          billing_state, billing_country, billing_address_format_id,
                          payment_method, payment_module_code, shipping_method, shipping_module_code,
                          coupon_code, cc_type, cc_owner, cc_number, cc_expires, currency, currency_value,
-                         date_purchased, orders_status, last_modified, order_total, order_tax, ip_address, COWOA_order
+                         date_purchased, orders_status, last_modified, order_total, order_tax, ip_address
                         from " . TABLE_ORDERS . "
                         where orders_id = '" . (int)$order_id . "'";
-// END COWOA edit
+
     $order = $db->Execute($order_query);
 
     $totals_query = "select title, text, class
@@ -660,9 +658,7 @@ class order extends base {
                             'currency_value' => $this->info['currency_value'],
                             'ip_address' => $_SESSION['customers_ip_address'] . ' - ' . $_SERVER['REMOTE_ADDR']
                             );
-// BEGIN COWOA edit
-    if ($_SESSION['COWOA']) $sql_data_array[COWOA_order] = 1;
-// END COWOA edit
+
 
     zen_db_perform(TABLE_ORDERS, $sql_data_array);
 
@@ -992,8 +988,6 @@ class order extends base {
     $html_msg['EMAIL_CUSTOMER_PHONE']  = $this->customer['telephone'];
     $html_msg['EMAIL_ORDER_DATE']      = date(ORDER_EMAIL_DATE_FORMAT);
 
-// NO COWOA, so lets set up the Text and HTML E-mail Information for the Order History Info
-    if (!$_SESSION['COWOA']){
       $invoiceInfo=EMAIL_TEXT_INVOICE_URL . ' ' . zen_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $zf_insert_id, 'SSL', false) . "\n\n";
       $htmlInvoiceURL=EMAIL_TEXT_INVOICE_URL_CLICK;
       $htmlInvoiceValue=zen_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $zf_insert_id, 'SSL', false);
@@ -1004,34 +998,6 @@ class order extends base {
       EMAIL_TEXT_ORDER_NUMBER . ' ' . $zf_insert_id . "\n" .
       EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n" .
       EMAIL_TEXT_INVOICE_URL . ' ' . zen_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $zf_insert_id, 'SSL', false) . "\n\n";
-    }
-
-// COWOA:If COWOA and Send Order Status is True
-    if ($_SESSION['COWOA'] && (COWOA_ORDER_STATUS == 'true'))  {
-      $htmlInvoiceURL=EMAIL_TEXT_INVOICE_URL_CLICK;
-      $htmlInvoiceValue=zen_href_link(FILENAME_ORDER_STATUS, 'order_id=' . $zf_insert_id, 'SSL', false);
-      $email_order = EMAIL_TEXT_HEADER . EMAIL_TEXT_FROM . STORE_NAME . "\n\n" .
-      $this->customer['firstname'] . ' ' . $this->customer['lastname'] . "\n\n" .
-      EMAIL_THANKS_FOR_SHOPPING . "\n" . EMAIL_DETAILS_FOLLOW . "\n" .
-      EMAIL_SEPARATOR . "\n" .
-      EMAIL_TEXT_ORDER_NUMBER . ' ' . $zf_insert_id . "\n" .
-      EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n" .
-      EMAIL_TEXT_INVOICE_URL . ' ' . zen_href_link(FILENAME_ORDER_STATUS, 'order_id=' . $zf_insert_id, 'SSL', false) . "\n\n";
-    }
-
-// COWOA:If COWOA but Send Order Status is False
-    if ($_SESSION['COWOA'] && (COWOA_ORDER_STATUS == 'false')){
-      $htmlInvoiceURL='';
-      $htmlInvoiceValue='';
-      $email_order = EMAIL_TEXT_HEADER . EMAIL_TEXT_FROM . STORE_NAME . "\n\n" .
-      $this->customer['firstname'] . ' ' . $this->customer['lastname'] . "\n\n" .
-      EMAIL_THANKS_FOR_SHOPPING . "\n" . EMAIL_DETAILS_FOLLOW . "\n" .
-      EMAIL_SEPARATOR . "\n" .
-      EMAIL_TEXT_ORDER_NUMBER . ' ' . $zf_insert_id . "\n" .
-      EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
-      $html_msg['INTRO_URL_TEXT']        = '';
-      $html_msg['INTRO_URL_VALUE']       = '';
-    }
 
     //comments area
     if ($this->info['comments']) {
@@ -1070,19 +1036,13 @@ class order extends base {
       zen_address_label($_SESSION['customer_id'], $_SESSION['sendto'], 0, '', "\n") . "\n";
     }
 
-    // BEGIN COWOA edit
-    //addresses area Billing: For COWOA - Billing info sent if the Cart has a dollar value otherwise, do not show the billing address
-    if ($_SESSION['cart']->show_total() != 0) {
+    //addresses area: Billing
     $email_order .= "\n" . EMAIL_TEXT_BILLING_ADDRESS . "\n" .
     EMAIL_SEPARATOR . "\n" .
     zen_address_label($_SESSION['customer_id'], $_SESSION['billto'], 0, '', "\n") . "\n\n";
     $html_msg['ADDRESS_BILLING_TITLE']   = EMAIL_TEXT_BILLING_ADDRESS;
     $html_msg['ADDRESS_BILLING_DETAIL']  = zen_address_label($_SESSION['customer_id'], $_SESSION['billto'], true, '', "<br />");
-    } else{
-    $html_msg['ADDRESS_BILLING_TITLE']   = '';
-    $html_msg['ADDRESS_BILLING_DETAIL']  = ' <br />';
-    }
-     // END COWOA edit
+
     if (is_object($GLOBALS[$_SESSION['payment']])) {
       $cc_num_display = (isset($this->info['cc_number']) && $this->info['cc_number'] != '') ? /*substr($this->info['cc_number'], 0, 4) . */ str_repeat('X', (strlen($this->info['cc_number']) - 8)) . substr($this->info['cc_number'], -4) . "\n\n" : '';
       $email_order .= EMAIL_TEXT_PAYMENT_METHOD . "\n" .

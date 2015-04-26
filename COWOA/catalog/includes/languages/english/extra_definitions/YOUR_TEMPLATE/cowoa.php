@@ -13,10 +13,10 @@
 
 define('TEXT_RATHER_COWOA', 'For a faster checkout experience, we offer the option to checkout without creating an account.<br />');
 define('COWOA_HEADING', 'Checkout Without An Account');
-define('ORDER_STEPS_IMAGE', 'arrow_checkout.gif');
+define('ORDER_STEPS_IMAGE', '<strong style="font-size:35px">&#9654;</strong>');
 define('ORDER_STEPS_IMAGE_HEIGHT', '24');
 define('ORDER_STEPS_IMAGE_WIDTH', '24');
-define('ORDER_STEPS_IMAGE_ALT', 'Checkout Arrow');
+define('ORDER_STEPS_IMAGE_ALT', '');
 
 define('TEXT_ORDER_STEPS_BILLING', 'Billing');
 define('TEXT_ORDER_STEPS_1', 'Shipping');
@@ -24,7 +24,7 @@ define('TEXT_ORDER_STEPS_2', 'Payment');
 define('TEXT_ORDER_STEPS_3', 'Review & Send Order');
 define('TEXT_ORDER_STEPS_4', 'Order Complete');
 
-define('ORDER_REVIEW', '<h4 class="confirm">PLEASE REVIEW &amp; CONFIRM YOUR ORDER!!</h4>');
+define('ORDER_REVIEW', '<div style="background:#FFFF00;color:#000;padding:15px;border:1px solid #ccc">== IMPORTANT == PLEASE REVIEW &amp; SEND YOUR ORDER BELOW</div>');
 
 define('NAVBAR_TITLE_1', 'Checkout - Step 1');
 define('NAVBAR_TITLE_2', 'Payment Method - Step 2');
@@ -50,9 +50,9 @@ define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', '<strong>Continue to Step 3</strong>
 
 define('TEXT_CONTINUE_CHECKOUT_PROCEDURE', '- to confirm your order.');
 
-define('TABLE_HEADING_CONDITIONS', '<span class="termsconditions">Terms and Conditions</span>');
-define('TEXT_CONDITIONS_DESCRIPTION', '<span class="termsdescription">Please acknowledge the terms and conditions bound to this order by ticking the following box. The terms and conditions can be read <a href="' . zen_href_link(FILENAME_CONDITIONS, '', 'SSL') . '"><span class="pseudolink">here</span></a>.');
-define('TEXT_CONDITIONS_CONFIRM', '<span class="termsiagree">I have read and agreed to the terms and conditions bound to this order.</span>');
+define('TABLE_HEADING_CONDITIONS', '<span class="termsconditions" style="color:red">Acceptance REQUIRED to Proceed</span>');
+define('TEXT_CONDITIONS_DESCRIPTION', 'Please read the item shipping lead time information <a href="javascript:void(0);"><span onClick="window.open(\'pro-ship.html\',\'\',\'status=yes,width=600,left=600,top=55,location=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no\')" style="font-weight:bold;color:red"><u>here</u></span></a> <i>(opens in a small pop up)</i>.');
+define('TEXT_CONDITIONS_CONFIRM', '<span class="termsiagree">I understand my order could take up to <strong>'.get_cart_ship_lead().' business day(s) before it ships</strong> and by continuing, I fully accept the terms and conditions of Mary\'s Miniatures.</span>');
 
 define('TEXT_CHECKOUT_AMOUNT_DUE', 'Total Amount Due: ');
 define('TEXT_YOUR_TOTAL','Your Total');
