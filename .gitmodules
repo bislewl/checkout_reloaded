@@ -1,0 +1,3 @@
+[submodule "docs_codes"]
+	path = docs_codes
+	url = https://github.com/bislewl/docs_codes
