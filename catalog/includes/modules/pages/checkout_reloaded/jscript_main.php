@@ -11,6 +11,7 @@
  * 
  */
 ?>
+<?php if(!defined('CSS_JS_LOADER_VERSION')) {?>
 <noscript>
 <meta http-equiv="refresh" content="0; URL=<?php echo zen_href_link(FILENAME_CHECKOUT_RELOADED, 'noscript_active=1'); ?>">
 </noscript>
@@ -289,10 +290,13 @@
                     }
                     function prepForms(formID) {
                     $(formID).submit(function (event) {
-                    event.preventDefault();
                     $('input[type="submit"]').val('Processing...');
-                            var postData = $(formID).serializeArray();
                             var formURL = $(formID).attr("action");
+                            if (formURL.indexOf("ipn_main_handler") >= 0) {
+                    return;
+                    }
+                    event.preventDefault();
+                            var postData = $(formID).serializeArray();
                             postData.push({name: 'checkout_reloaded_post', value: '1'});
                             $.ajax(
                             {
@@ -313,12 +317,12 @@
                     function submitForm() {
                     prepForms('form[name=login]');
                             prepForms('form[name=create_account]');
+                            prepForms('form[name=create]');
                             prepForms('form[name=checkout_shipping]');
                             prepForms('form[name=checkout_shipping_address]');
                             prepForms('form[name=checkout_address]');
                             prepForms('form[name=checkout_payment]');
                             prepForms('form[name=checkout_payment_address]');
-                            prepForms('form[name=checkout_confirmation]');
                             prepForms('form[name=no_account]');
                             prepLink('.forward a');
                             prepLink('.back a');
@@ -385,6 +389,11 @@
                     discCodeEntered();
                     }
                     });
+                            $('input[name="cot_gv"]').blur(function () {
+                    if ($('input[name="cot_gv"]').length > 2){
+                    discCodeEntered();
+                    }
+                    });
                     }
                     function discCodeEntered() {
                     dimOrderTotals();
@@ -421,10 +430,17 @@
                             function loadCenterColumn(data){
                             var centerColumnContent = $(data).find('.centerColumn').html();
                                     $('.centerColumn').html(centerColumnContent);
-                                    var checkoutReloadedTop = $("#checkoutreloadedBody").offset().top;
+                                    var checkoutReloadedTop = $("#checkoutReloaded").offset().top;
                                     $(window).trigger('resize');
-                                    if (centerColumnContent.length < 100){
+                                    if (centerColumnContent.indexOf("messageStackError") >= 0){
+                            var checkoutReloadedTop = $("#checkoutReloaded").offset().top;
+                                    $('html, body').animate({
+                            scrollTop:  checkoutReloadedTop
+                            }, 2000);
+                            }
+                            if (centerColumnContent.length < 100){
                             reloadCheckoutShipping();
                             }
                             }
 //--></script>
+<?php }
