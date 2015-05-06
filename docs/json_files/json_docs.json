@@ -5,8 +5,16 @@
         "about" : "This module is an advanced installation for Zen Cart 1.5.4 and tested on PHP 5.5.17. It may very well work on other Zen cart versions too. <br/>We are so very excited to talk about Checkout Reloaded. Ironically, the checkout modules does anything but reload =)",
         "releases" : [ 
                     {"date" : "04/21/2015",
-                    "version" : "1.0.0",
+                    "version" : "1.0.0BETA",
                     "description" : "Initial Release",
+                    "user" : "PRO-Webs.net"},
+                {"date" : "04/30/2015",
+                    "version" : "1.1.0BETA",
+                    "description" : "Added support/non-support for CSS/JS loader",
+                    "user" : "PRO-Webs.net"},
+                {"date" : "05/06/2015",
+                    "version" : "1.1.1BETA",
+                    "description" : "Bug fixes in jquery, php, and CSS. Removed Ajax call on checkout sucess.",
                     "user" : "PRO-Webs.net"}
         ],
         "featuresHeading" : "Checkout Reloaded Module for Zen Cart 1.5.4 Features",
