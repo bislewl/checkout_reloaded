@@ -14,7 +14,7 @@
 */
 #order_steps {
   /* Is needed for the centering in IE */
-  padding: 0 3px;
+  padding: 10px 3px;
   margin: 10px 10px;
   text-align: center;
   border: 1px solid #000;
