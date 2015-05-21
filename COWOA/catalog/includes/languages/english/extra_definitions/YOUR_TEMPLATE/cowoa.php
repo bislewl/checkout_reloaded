@@ -26,9 +26,6 @@ define('TEXT_ORDER_STEPS_4', 'Order Complete');
 
 define('ORDER_REVIEW', '<div style="background:#FFFF00;color:#000;padding:15px;border:1px solid #ccc">== IMPORTANT == PLEASE REVIEW &amp; SEND YOUR ORDER BELOW</div>');
 
-define('NAVBAR_TITLE_1', 'Checkout - Step 1');
-define('NAVBAR_TITLE_2', 'Payment Method - Step 2');
-
 
 define('TABLE_HEADING_BILLING_ADDRESS', 'Billing Address');
 define('TEXT_SELECTED_BILLING_DESTINATION', 'Your billing address is shown to the left. The billing address should match the address on your credit card statement. You can change the billing address by clicking the <em>Change Address</em> button.');
@@ -42,13 +39,6 @@ define('TABLE_HEADING_COMMENTS', 'Special Instructions or Order Comments');
 
 define('TITLE_NO_PAYMENT_OPTIONS_AVAILABLE', 'Not Available At This Time');
 define('TEXT_NO_PAYMENT_OPTIONS_AVAILABLE','<span class="alert">Sorry, we are not accepting payments from your region at this time.</span><br />Please contact us for alternate arrangements.');
-
-if($COWOA)
-define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', '<strong>Continue to Step 4</strong>');
-else
-define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', '<strong>Continue to Step 3</strong>');
-
-define('TEXT_CONTINUE_CHECKOUT_PROCEDURE', '- to confirm your order.');
 
 define('TABLE_HEADING_CONDITIONS', '<span class="termsconditions">Terms and Conditions</span>');
 define('TEXT_CONDITIONS_DESCRIPTION', '<span class="termsdescription">Please acknowledge the terms and conditions bound to this order by ticking the following box. The terms and conditions can be read <a href="' . zen_href_link(FILENAME_CONDITIONS, '', 'SSL') . '"><span class="pseudolink">here</span></a>.');

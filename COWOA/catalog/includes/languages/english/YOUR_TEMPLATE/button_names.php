@@ -83,5 +83,5 @@ define('BUTTON_READ_REVIEWS_ALT', 'Read the Review');
 define('BUTTON_GOTO_PROD_DETAILS_ALT', 'Go To This Product\'s Detailed Information');
 define('BUTTON_MORE_REVIEWS_ALT', 'Read More Reviews');
 define('BUTTON_UPDATE_ALT', 'Update');
-define('BUTTON_SEND_ORDER_ALT', 'Submit');
+define('BUTTON_SEND_ORDER_ALT', 'Review Order');
 define('BUTTON_IMAGE_SEND_ORDER', 'button_send.gif');
