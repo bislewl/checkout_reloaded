@@ -13,7 +13,7 @@
 
 define('TEXT_RATHER_COWOA', 'For a faster checkout experience, we offer the option to checkout without creating an account.<br />');
 define('COWOA_HEADING', 'Checkout Without An Account');
-define('ORDER_STEPS_IMAGE', '<strong style="font-size:35px">&#9654;</strong>');
+define('ORDER_STEPS_IMAGE', '<strong style="font-size:30px">&#9654;</strong>');
 define('ORDER_STEPS_IMAGE_HEIGHT', '24');
 define('ORDER_STEPS_IMAGE_WIDTH', '24');
 define('ORDER_STEPS_IMAGE_ALT', '');
