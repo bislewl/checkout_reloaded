@@ -1,4 +1,16 @@
-<?php if(defined('CSS_JS_LOADER_VERSION')) {?>
+<?php
+/*
+ * 
+ * @package checkout_reloaded
+ * @copyright Copyright 2003-2015 ZenCart.Codes a Pro-Webs Company
+ * @copyright Copyright 2003-2015 Zen Cart Development Team
+ * @copyright Portions Copyright 2003 osCommerce
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @filename jscript_main.php
+ * @file created 2015-02-08 12:42:06 PM
+ * 
+ */
+?>
 <noscript>
 <meta http-equiv="refresh" content="0; URL=<?php echo zen_href_link(FILENAME_CHECKOUT_RELOADED, 'noscript_active=1'); ?>">
 </noscript>
@@ -255,9 +267,13 @@
                             update_zone(document.checkout_address);
                     }
                     function prepLink(linkID) {
+
                     $(linkID).click(function (event) {
+                    var link = $(this).attr("href");
+                            if (link.indexOf("ipn_main_handler") >= 0) {
+                    return;
+                    }
                     event.preventDefault();
-                            var link = $(this).attr("href");
                             if (link.indexOf("checkout_shipping") >= 0 && link.indexOf("checkout_shipping_address") == 0) {
                     reloadCheckoutShipping();
                     }
@@ -430,4 +446,3 @@
                             }
                             }
 //--></script>
-<?php }
