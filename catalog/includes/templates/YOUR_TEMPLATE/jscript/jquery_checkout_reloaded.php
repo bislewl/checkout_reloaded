@@ -282,6 +282,7 @@
                     {
                     url: link,
                             type: "GET",
+                            dataType: 'html',
                             success: function (data)
                             {
                             loadCenterColumn(data)
@@ -306,6 +307,7 @@
                             url: formURL,
                                     type: "POST",
                                     data: postData,
+                                    dataType: 'html',
                                     success: function (data)
                                     {
                                     loadCenterColumn(data)
@@ -337,6 +339,7 @@
                             {
                             url: checkoutShipping,
                                     type: "POST",
+                                    dataType: 'html',
                                     data: "checkout_reloaded_post=1",
                                     success: function (data)
                                     {
@@ -351,6 +354,7 @@
                             {
                             url: checkoutPayment,
                                     type: "GET",
+                                    dataType: 'html',
                                     success: function (data)
                                     {
                                     loadCenterColumn(data)
@@ -370,6 +374,7 @@
                             url: checkoutShipping,
                                     type: "POST",
                                     data: postData,
+                                    dataType: 'html',
                                     success: function (data)
                                     {
                                     $("fieldset[id='checkoutOrderTotals']").removeAttr('style');
@@ -408,6 +413,7 @@
                             url: checkoutPayment,
                                     type: "POST",
                                     data: postData,
+                                    dataType: 'html',
                                     success: function ()
                                     {
                                     reloadCheckoutPayment()
@@ -424,6 +430,7 @@
                     url: '<?php echo zen_href_link(FILENAME_CHECKOUT_SHIPPING); ?>',
                             type: 'post',
                             data: 'checkout_reloaded_post=1',
+                            dataType: 'html',
                             success: function (data) {
                             loadCenterColumn(data)
                                     reSetupObvservers();
