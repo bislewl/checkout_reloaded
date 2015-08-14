@@ -265,6 +265,7 @@
                             refreshShipping();
                             refreshPayment();
                             update_zone(document.checkout_address);
+                            checkoutReloadedScrollTop();
                     }
                     function prepLink(linkID) {
 
@@ -446,10 +447,14 @@
                             var checkoutReloadedTop = $("#checkoutReloaded").offset().top;
                                     $('html, body').animate({
                             scrollTop:  checkoutReloadedTop
-                            }, 2000);
+                            }, 200);
                             }
                             if (centerColumnContent.length < 100){
                             reloadCheckoutShipping();
                             }
                             }
+                    function checkoutReloadedScrollTop(){
+                    $("html, body").animate({ scrollTop: 100 }, "slow");
+                            return false;
+                    }
 //--></script>
