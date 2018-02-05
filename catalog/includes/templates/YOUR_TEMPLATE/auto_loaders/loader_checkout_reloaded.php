@@ -16,7 +16,7 @@ $loaders[] = array(
         'pages' => array('checkout_reloaded') 
     ),
     'jscript_files' => array(
-        '//code.jquery.com/jquery-1.11.3.min.js' => 1,
+        '//code.jquery.com/jquery-1.11.3.min.js" integrity="sha384-+54fLHoW8AHu3nHtUxs9fW2XKOZ2ZwKHB5olRtKSDTKJIb1Na1EceFZMS8E72mzW" crossorigin="anonymous"' => 1,
         'jquery/jquery_checkout_reloaded.php' => 4
     ),
     'css_files' => array(
